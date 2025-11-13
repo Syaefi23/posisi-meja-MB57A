@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posisi Meja - Spoiler</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-indigo-900 text-white min-h-screen flex flex-col items-center justify-center p-4 py-10">
+
+    <div class="w-full max-w-lg mx-auto">
+        <!-- Judul -->
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-indigo-400">Posisi Meja</h1>
+        <p class="text-center text-gray-300 mb-8 text-lg">Klik tombol "Lihat Meja" untuk menampilkan nomor meja.</p>
+
+        <!-- Kontainer Daftar -->
+        <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700">
+            
+            <!-- Daftar Nama akan dimasukkan di sini oleh JS -->
+            <div id="table-list" class="space-y-3">
+                <!-- Contoh item (akan dihapus dan diganti JS):
+                <div class="flex items-center justify-between bg-gray-700 p-4 rounded-lg shadow">
+                    <span class="text-xl font-medium text-white">Nama Peserta</span>
+                    <button class="spoiler-button bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                        Lihat Meja
+                    </button>
+                </div>
+                -->
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Data peserta dan meja mereka
+            const participants = [
+                { name: "Abdul", table: 3 },
+                { name: "Adam", table: 5 },
+                { name: "Ade", table: 7 },
+                { name: "Adi", table: 10 },
+                { name: "Andika", table: 4 },
+                { name: "Khazin Ali", table: 6 },
+                { name: "Muhammad Hisyam", table: 1 },
+                { name: "Naufal", table: 9 },
+                { name: "Rahmat", table: 2 },
+                { name: "Syaefulloh", table: 8 },
+                { name: "Yuda", table: 11 }
+            ];
+
+            const tableList = document.getElementById('table-list');
+
+            // 1. Buat dan tampilkan daftar nama dan tombol
+            participants.forEach(person => {
+                // Buat kontainer baris
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-gray-700 p-4 rounded-lg shadow-md';
+
+                // Buat elemen nama
+                const nameEl = document.createElement('span');
+                nameEl.className = 'text-xl font-medium text-white';
+                nameEl.textContent = person.name;
+
+                // Buat tombol spoiler
+                const buttonEl = document.createElement('button');
+                buttonEl.className = 'spoiler-button bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105';
+                buttonEl.textContent = 'Lihat Meja';
+                // Simpan nomor meja di 'data-' attribute
+                buttonEl.dataset.table = person.table;
+
+                // Tambahkan nama dan tombol ke baris
+                item.appendChild(nameEl);
+                item.appendChild(buttonEl);
+
+                // Tambahkan baris ke daftar utama
+                tableList.appendChild(item);
+            });
+
+            // 2. Tambahkan Event Listener ke seluruh daftar (Event Delegation)
+            tableList.addEventListener('click', function(e) {
+                // Cek apakah yang diklik adalah tombol dengan kelas 'spoiler-button'
+                if (e.target && e.target.classList.contains('spoiler-button')) {
+                    const button = e.target;
+                    const tableNumber = button.dataset.table;
+
+                    // Buat elemen baru untuk menampilkan nomor meja
+                    const tableDisplay = document.createElement('div');
+                    tableDisplay.className = 'text-2xl font-bold text-indigo-400';
+                    tableDisplay.textContent = `Meja ${tableNumber}`;
+
+                    // Ganti tombol dengan teks nomor meja
+                    // .parentNode merujuk ke 'item' <div>
+                    button.parentNode.replaceChild(tableDisplay, button);
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
